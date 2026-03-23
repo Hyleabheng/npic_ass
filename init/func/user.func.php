@@ -13,6 +13,24 @@ function usernameExists($username)
     }
     return false;
 }
+
+function registerUser($name, $username, $passwd)
+{
+    $name = trim((string)$name);
+    $username = trim((string)$username);
+    $passwd = (string)$passwd;
+
+    if ($name === '' || $username === '' || $passwd === '') {
+        return false;
+    }
+    if (usernameExists($username)) {
+        return false;
+    }
+
+    // NOTE: Current system uses plain-text passwords (see logUserIn).
+    // Keep consistent to avoid breaking login.
+    return createUser($name, $username, $passwd);
+}
 function logUserIn($username, $passwd)
 {
     global $db;

@@ -23,7 +23,7 @@ if (isset($_POST['changePasswd'], $_POST['oldPasswd'], $_POST['newPasswd'], $_PO
         if (setUserNewPassowrd($newPasswd)) {
             unset($_SESSION['user_id']);
             echo '<div class="alert alert-success" role="alert">
-                password changed successfully. <a href="./?page=login">Login</a> to login again.
+                Password changed successfully. Please login again.
                 </div>';
         } else {
             echo '<div class="alert alert-danger" role="alert">

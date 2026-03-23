@@ -34,6 +34,14 @@ function getCategories()
     return null;
 }
 
+function countCategories()
+{
+    global $db;
+    $query = $db->query("SELECT COUNT(*) AS c FROM tbl_category");
+    $row = $query ? $query->fetch_assoc() : null;
+    return (int)($row['c'] ?? 0);
+}
+
 function createCategory($name, $slug)
 {
     global $db;

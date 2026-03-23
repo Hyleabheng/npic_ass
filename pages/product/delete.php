@@ -1,13 +1,13 @@
 <?php
 if (!isset($_GET['id']) || getProductByID($_GET['id']) === null) {
     header('Location: ./?page=product/home');
+    exit;
 }
 if (deleteProduct($_GET['id'])) {
-    echo '<div class="alert alert-success" role="alert">
-            Product deleted successfully. <a href="./?page=product/home">Product page</a>
-            </div>';
+    header('Location: ./?page=product/home');
+    exit;
 } else {
     echo '<div class="alert alert-danger" role="alert">
-        can not delete Product! <a href="./?page=product/home">Product page</a>
+        Can not delete product!
         </div>';
 }

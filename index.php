@@ -2,11 +2,12 @@
 
 require_once('init/init.php');
 
+$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+define('CURRENT_PAGE', $page);
+
 include('includes/header.inc.php');
 include('includes/navbar.inc.php');
-if (isset($_GET['page'])) {
-    $page = $_GET['page']; // about
-
+if ($page !== 'home') {
     $admin_pages = [
         'user/home',
         'user/create',
@@ -46,15 +47,19 @@ if (isset($_GET['page'])) {
     ) {
         if (in_array($page, $admin_pages) && !isAdmin()) {
             header("Location: ./");
+            exit;
         }
         if (in_array($page, $user_pages) && !isUser()) {
             header("Location: ./");
+            exit;
         }
         include('pages/' . $page . '.php');
     } else if (in_array($page, $after_logIn_pages) && !LoggedInUser()) {
         header("Location: ./?page=login");
+        exit;
     } else {
         header("Location: ./");
+        exit;
     }
 } else {
     include('pages/home.php');

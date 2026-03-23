@@ -9,6 +9,26 @@ function getProducts()
     return null;
 }
 
+function countProducts()
+{
+    global $db;
+    $query = $db->query("SELECT COUNT(*) AS c FROM tbl_product");
+    $row = $query ? $query->fetch_assoc() : null;
+    return (int)($row['c'] ?? 0);
+}
+
+function getRecentProducts($limit = 8)
+{
+    global $db;
+    $limit = (int)$limit;
+    if ($limit <= 0) $limit = 8;
+    if ($limit > 50) $limit = 50;
+
+    $query = $db->query("SELECT * FROM tbl_product ORDER BY id_product DESC LIMIT $limit");
+    if ($query && $query->num_rows) return $query;
+    return null;
+}
+
 function productNameExists($name)
 {
     global $db;

@@ -41,6 +41,22 @@ function getPendingCartProductCount()
     return $query->num_rows;
 }
 
+function getPendingCartProductCountForUser($id_user)
+{
+    global $db;
+    $query = $db->prepare("
+        SELECT COUNT(*) AS c
+        FROM tbl_cart_detail
+        INNER JOIN tbl_cart ON tbl_cart.id_cart = tbl_cart_detail.id_cart
+        WHERE tbl_cart.status = 'pending' AND tbl_cart.id_user = ?
+    ");
+    $query->bind_param('i', $id_user);
+    $query->execute();
+    $result = $query->get_result();
+    $row = $result ? $result->fetch_assoc() : null;
+    return (int)($row['c'] ?? 0);
+}
+
 function getPendingCartDetails()
 {
     global $db;
@@ -48,5 +64,27 @@ function getPendingCartDetails()
     if ($query->num_rows) {
         return $query;
     }
+    return null;
+}
+
+function getPendingCartDetailsForUser($id_user, $limit = 50)
+{
+    global $db;
+    $limit = (int)$limit;
+    if ($limit <= 0) $limit = 50;
+    if ($limit > 200) $limit = 200;
+
+    $query = $db->prepare("
+        SELECT tbl_cart_detail.*
+        FROM tbl_cart_detail
+        INNER JOIN tbl_cart ON tbl_cart.id_cart = tbl_cart_detail.id_cart
+        WHERE tbl_cart.status = 'pending' AND tbl_cart.id_user = ?
+        ORDER BY tbl_cart_detail.id_cart_detail DESC
+        LIMIT $limit
+    ");
+    $query->bind_param('i', $id_user);
+    $query->execute();
+    $result = $query->get_result();
+    if ($result && $result->num_rows) return $result;
     return null;
 }

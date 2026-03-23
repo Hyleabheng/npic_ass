@@ -1,6 +1,7 @@
 <?php
 if (!isset($_GET['id']) || getProductByID($_GET['id']) === null) {
     header('Location: ./?page=category/home');
+    exit;
 }
 
 $manage_product = getProductByID($_GET['id']);
@@ -50,16 +51,8 @@ if (isset($_POST['name']) && isset($_POST['slug']) && isset($_POST['price']) && 
         try {
             $manage_product = updateProduct($id_product, $name, $slug, $price, $short_des, $long_des, $image, $id_categories);
             if ($manage_product) {
-                echo '<div class="alert alert-success" role="alert">
-                Product Updated Successfully. <a href="./?page=product/home">Product page</a>
-                </div>';
-                $name_err = $slug_err = $price_err = $short_des_err = $long_des_err = '';
-                unset($_POST['name']);
-                unset($_POST['slug']);
-                unset($_POST['price']);
-                unset($_POST['short_des']);
-                unset($_POST['long_des']);
-                unset($_POST['id_categories']);
+                header('Location: ./?page=product/home');
+                exit;
             } else {
                 echo '<div class="alert alert-danger" role="alert">
                     Product Updated Failed

@@ -10,6 +10,23 @@ function getUsers()
     return null;
 }
 
+function countUsers($level = null)
+{
+    global $db;
+    if ($level === null || $level === '') {
+        $query = $db->query("SELECT COUNT(*) AS c FROM tbl_user");
+        $row = $query ? $query->fetch_assoc() : null;
+        return (int)($row['c'] ?? 0);
+    }
+
+    $query = $db->prepare("SELECT COUNT(*) AS c FROM tbl_user WHERE level = ?");
+    $query->bind_param('s', $level);
+    $query->execute();
+    $result = $query->get_result();
+    $row = $result ? $result->fetch_assoc() : null;
+    return (int)($row['c'] ?? 0);
+}
+
 function createUser($user_label, $username, $passwd)
 {
     global $db;

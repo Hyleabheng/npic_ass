@@ -42,16 +42,8 @@ if (isset($_POST['name']) && isset($_POST['slug']) && isset($_POST['price']) && 
     if (empty($name_err) && empty($slug_err) && empty($price_err) && empty($short_des_err) && empty($long_des_err)) {
         try {
             if (createProduct($name, $slug, $price, $short_des, $long_des, $image, $id_categories)) {
-                echo '<div class="alert alert-success" role="alert">
-                Product Created Successfully. <a href="./?page=product/home">Product page</a>
-                </div>';
-                $name_err = $slug_err = $price_err = $short_des_err = $long_des_err = '';
-                unset($_POST['name']);
-                unset($_POST['slug']);
-                unset($_POST['price']);
-                unset($_POST['short_des']);
-                unset($_POST['long_des']);
-                unset($_POST['id_categories']);
+                header('Location: ./?page=product/home');
+                exit;
             } else {
                 echo '<div class="alert alert-danger" role="alert">
                     Product Created Failed

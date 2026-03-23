@@ -1,0 +1,13 @@
+{
+  "name": "npicpos",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build:react": "esbuild src/react/home.jsx --bundle --minify --format=iife --outfile=assets/js/home.react.js --jsx-factory=React.createElement --jsx-fragment=React.Fragment",
+    "dev:react": "esbuild src/react/home.jsx --bundle --sourcemap --format=iife --outfile=assets/js/home.react.js --jsx-factory=React.createElement --jsx-fragment=React.Fragment --watch"
+  },
+  "devDependencies": {
+    "esbuild": "latest"
+  }
+}
+

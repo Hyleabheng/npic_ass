@@ -20,6 +20,12 @@ $user = LoggedInUser();
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
+        <?php if ($user) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="./?page=dashboard">Dashboard</a>
+        </li>
+        <?php } ?>
+
         <?php if (isAdmin()) { ?>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -39,7 +45,7 @@ $user = LoggedInUser();
           <a href="./?page=cart/home" class="btn btn-primary">
             Cart 
             <span class="badge text-bg-secondary">
-              <?php echo getPendingCartProductCount() ?>
+              <?php echo $user ? getPendingCartProductCountForUser((int)$user->id_user) : 0 ?>
             </span>
           </a>
         </li>

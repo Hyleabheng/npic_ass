@@ -1,0 +1,5 @@
+node_modules/
+
+# Optional: generated source maps (when using dev:react)
+assets/js/*.map
+
